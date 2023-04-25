@@ -1,0 +1,131 @@
+/* Keyboard container */
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  /* padding: 10px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  margin: 10px;
+  width: 100%;
+}
+
+/* Keyboard button */
+.keyboard__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  /* margin: 5px; */
+  padding: 2px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #f2f2f2;
+  color: #333;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Keyboard button hover */
+.keyboard__button:hover {
+  background-color: #ccc;
+  color: #fff;
+}
+
+/* Keyboard button active */
+.keyboard__button.active {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Keyboard button special */
+.keyboard__button--special {
+  width: 60px;
+  background-color: #ddd;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-transform: capitalize;
+  font-size: fit-content;
+}
+
+/* Keyboard button special hover */
+.keyboard__button--special:hover {
+  background-color: #bbb;
+}
+
+/* Keyboard button special active */
+.keyboard__button--special.active {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Keyboard button enter */
+.keyboard__button--enter {
+  width: 80px;
+}
+
+/* Keyboard button shift */
+.keyboard__button--shift {
+  width: 80px;
+}
+
+/* Keyboard button space */
+.keyboard__button--space {
+  width: 40%;
+}
+
+/* Keyboard button backspace */
+.keyboard__button--backspace {
+  width: 80px;
+  font-size: fit-content;
+}
+
+/* Virtual screen container */
+.screen {
+ display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  max-width: 800px;
+  margin: 0 auto;
+  /* padding: 10px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 25vh;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.wrapper{
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title {
+     font-size: 32px;
+     color: #333;
+     margin: 0 auto;
+     padding: 30px 0;
+}
