@@ -183,9 +183,8 @@ const Keyboard = {
                         const textarea = document.querySelector(".use-keyboard-input");
                         const cursorPos = this._getCursorPosition(textarea);
                         this.properties.value = this.properties.value.substring(0, cursorPos)+this.properties.value.substring(cursorPos+1);
-                        this._triggerEvent("oninput");
                         textarea.selectionStart = cursorPos - 1;
-                        textarea.selectionEnd = cursorPos - 1;
+                        this._triggerEvent("oninput");
                     });
                     break;
 
@@ -196,9 +195,8 @@ const Keyboard = {
                         const textarea = document.querySelector(".use-keyboard-input");
                         const cursorPos = this._getCursorPosition(textarea);
                         this.properties.value = this.properties.value.substring(0, cursorPos)+" "+ this.properties.value.substring(cursorPos);
-                        this._triggerEvent("oninput");
                         textarea.selectionStart = cursorPos + 1;
-                        textarea.selectionEnd = cursorPos + 1;
+                        this._triggerEvent("oninput");
                     });
                     break;
                 case "ArrowUp":
