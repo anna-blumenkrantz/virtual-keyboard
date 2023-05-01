@@ -18,14 +18,19 @@ const Keyboard = {
         },
 
     init() {
+        document.body.innerHTML = "";
+        const title = document.createElement("h1");
+        title.classList.add("title");
+        title.textContent = "Virtual Keyboard w/ HTML, CSS & JS";
+        document.body.appendChild(title);
         //create input area
         const textarea = document.createElement("textarea");
         textarea.classList.add("use-keyboard-input");
         document.body.appendChild(textarea);
-        //create input area
+        //create info area
         const languageInfo = document.createElement("h3");
-         languageInfo.classList.add("title");
-        languageInfo.textContent = 'Press Shift Alt left for switching languages'
+        languageInfo.classList.add("title");
+        languageInfo.textContent = "Press Shift Alt left for switching languages";
         document.body.appendChild(languageInfo);
         // Create main elements
         this.elements.main = document.createElement("div");
@@ -48,12 +53,17 @@ const Keyboard = {
                 this.open(element.value, currentValue => {
                     element.value = currentValue;
                 });
+                console.log(".use-keyboard-input FOCUSED");
             });
         });
     },
 
     _createKeys() {
         const fragment = document.createDocumentFragment();
+         // Creates HTML for an icon
+        const createIconHTML = (icon_name) => {
+            return `<i class="material-icons">${icon_name}</i>`;
+        };
         const english = [
             "`", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "-", "=", "Backspace",
             "Tab","KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP","[", "]", "\\", "Delete",
@@ -62,19 +72,16 @@ const Keyboard = {
             "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
         ];
         const russian = [
-        'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-        'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\',"Delete",
-        'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
-        'ShiftLeft', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', "arrow_up","ShiftRight",
-        "ControlLeft", "AltLeft","Space","AltRight", "ArrowLeft", "ArrowDown", "ArrowRight","ControlRight"
+        "ё",  "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "-", "=", "Backspace",
+        "Tab", "Keyй", "Keyц", "Keyу", "Keyк", "Keyе", "Keyн", "Keyг", "Keyш", "Keyщ", "Keyз", "Keyх", "Keyъ", "\\","Delete",
+        "CapsLock", "Keyф", "Keyы", "Keyв", "Keyа", "Keyп", "Keyр", "Keyо", "Keyл", "Keyд", "Keyж", "Keyэ", "Enter",
+        "ShiftLeft", "Keyя", "Keyч", "Keyс", "Keyм", "Keyи", "Keyт", "Keyь", "Keyб", "Keyю", ".", "ShiftRight","ArrowUp",
+         "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
         ];
 
-        // Creates HTML for an icon
-        const createIconHTML = (icon_name) => {
-            return `<i class="material-icons">${icon_name}</i>`;
-        };
+        const currentLayout = this.properties.englishLayout ? english : russian;
 
-        english.forEach(key => {
+        currentLayout.forEach(key => {
             var insertLineBreak = ["Backspace", "Delete", "Enter", "ArrowUp"].indexOf(key) !== -1;
             const keyElement = document.createElement("button");
 
@@ -152,12 +159,12 @@ const Keyboard = {
                     break;
 
                  case "Delete":
-                    keyElement.textContent = 'Del';
+                    keyElement.textContent = "Del";
                     // const textarea = document.querySelector(".use-keyboard-input");
-                    // console.log('textarea'+textarea);
+                    // console.log("textarea"+textarea);
                     // var selectionStart = textarea.selectionStart;
                     // var selectionEnd = textarea.selectionEnd;
-                    // console.log('selectionStart'+selectionStart);
+                    // console.log("selectionStart"+selectionStart);
 
                     // if (selectionStart === selectionEnd) {
                     // this.properties.value = this.properties.value.slice(0, selectionStart - 1) + this.properties.value.slice(selectionStart);
@@ -265,7 +272,7 @@ const Keyboard = {
             if (key.textContent.length ==1) {
                 key.textContent = this.properties.shift ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
             }
-            if(key.textContent =='Shift') {
+            if(key.textContent =="Shift") {
                  key.classList.toggle("keyboard__key--active");
             }
         }
@@ -286,7 +293,7 @@ const Keyboard = {
     runOnKeys(func, ...codes) {
       let pressed = new Set();
 
-      document.addEventListener('keydown', function(event) {
+      document.addEventListener("keydown", function(event) {
         pressed.add(event.code);
 
         for (let code of codes) { // are all keys in the set?
@@ -298,7 +305,7 @@ const Keyboard = {
         func();
       });
 
-      document.addEventListener('keyup', function(event) {
+      document.addEventListener("keyup", function(event) {
         pressed.delete(event.code);
       });
 
@@ -306,6 +313,7 @@ const Keyboard = {
 
     _switchLayout() {
         this.properties.englishLayout = !this.properties.englishLayout;
+        console.log("_switchLayout--->"+this.properties.englishLayout);
         Keyboard.init();
     }
 
@@ -314,8 +322,10 @@ const Keyboard = {
 window.addEventListener("DOMContentLoaded", function () {
    //load keyboard
     Keyboard.init();
-    //track pressed keys 
+
+    //track pressed keys
    this.document.onkeydown = function (event) {
+    console.log("event "+event);
     const pressedKeys = new Set();
     document.querySelectorAll(".keyboard__key").forEach(function(element) {
         if (element.getAttribute("data-key") == event.code) {
@@ -324,16 +334,12 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // add focus to all the pressed keys
-    pressedKeys.forEach(function(key) {
-        key.focus();
-    });
-
     // handle input
     if(event.key.length == 1) {
         Keyboard.properties.value += event.key;
-        Keyboard._triggerEvent('oninput');
+        Keyboard._triggerEvent("oninput");
     }
+
 
     document.onkeyup = function(event) {
         document.querySelectorAll(".keyboard__key").forEach(function(element) {
@@ -343,7 +349,7 @@ window.addEventListener("DOMContentLoaded", function () {
             }
         });
     };
-};
-
-    // Keyboard.runOnKeys(Keyboard._switchLayout, "ShiftLeft", "AltLeft");
+    };
+    //handle language switch
+    Keyboard.runOnKeys(Keyboard._switchLayout.bind(Keyboard), "ShiftLeft", "AltLeft");
 });
