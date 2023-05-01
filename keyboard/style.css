@@ -13,10 +13,16 @@ html{
 /************** GREEN KEYBOARD *********************/
 
 .title {
-     font-size: 32px;
+     font-size: 3.2rem;
      color: #037e65;
      margin: 0 auto;
      padding: 3rem 0;
+}
+.subtitle {
+    font-size: 2.4rem;
+     margin: 0 auto;
+     padding: 3rem 0;
+
 }
 h3, li{
     color: #004134;
@@ -29,13 +35,9 @@ h3, li{
     font-size: 2.5rem;
 }
 .keyboard {
-    /* position: fixed;
-    left: 0;
-    bottom: 0; */
      display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    /* align-items: baseline; */
 
     margin: 0 auto;
     width: 100%;

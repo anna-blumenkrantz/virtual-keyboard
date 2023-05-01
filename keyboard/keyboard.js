@@ -19,19 +19,9 @@ const Keyboard = {
 
     init() {
         document.body.innerHTML = "";
-        const title = document.createElement("h1");
-        title.classList.add("title");
-        title.textContent = "Virtual Keyboard w/ HTML, CSS & JS";
-        document.body.appendChild(title);
-        //create input area
-        const textarea = document.createElement("textarea");
-        textarea.classList.add("use-keyboard-input");
-        document.body.appendChild(textarea);
-        //create info area
-        const languageInfo = document.createElement("h3");
-        languageInfo.classList.add("title");
-        languageInfo.textContent = "Press Shift Alt left for switching languages";
-        document.body.appendChild(languageInfo);
+        this._createTitle();
+        this._createInputArea();
+        this._createLanguageInfo();
         // Create main elements
         this.elements.main = document.createElement("div");
         this.elements.keysContainer = document.createElement("div");
@@ -56,7 +46,33 @@ const Keyboard = {
             });
         });
     },
+    _createTitle() {
+    const title = document.createElement("h1");
+    title.classList.add("title");
+    title.textContent = "Virtual Keyboard w/ HTML, CSS & JS";
+    document.body.appendChild(title);
+  },
 
+  _createInputArea() {
+    const textarea = document.createElement("textarea");
+    textarea.classList.add("use-keyboard-input");
+    document.body.appendChild(textarea);
+  },
+
+  _createLanguageInfo() {
+    const languageInfo = document.createElement("h3");
+    languageInfo.classList.add("subtitle");
+    languageInfo.textContent = "Press left Shift + Alt to switch between languages";
+    document.body.appendChild(languageInfo);
+  },
+
+    _getLayoutSetting() {
+    // Get the stored value of the 'layoutSetting' key, or use a default value of true
+        const storedLayoutSetting = localStorage.getItem('layout') === 'false' ? false : this.properties.englishLayout;
+
+        // Update the 'englishLayout' property based on the stored value
+        this.properties.englishLayout = storedLayoutSetting;
+    },
     _createKeys() {
         const fragment = document.createDocumentFragment();
          // Creates HTML for an icon
@@ -163,36 +179,30 @@ const Keyboard = {
 
                  case "Delete":
                     keyElement.textContent = "Del";
-                    // const textarea = document.querySelector(".use-keyboard-input");
-                    // console.log("textarea"+textarea);
-                    // var selectionStart = textarea.selectionStart;
-                    // var selectionEnd = textarea.selectionEnd;
-                    // console.log("selectionStart"+selectionStart);
-
-                    // if (selectionStart === selectionEnd) {
-                    // this.properties.value = this.properties.value.slice(0, selectionStart - 1) + this.properties.value.slice(selectionStart);
-                    // textarea.selectionStart = selectionStart - 1;
-                    // textarea.selectionEnd = selectionEnd - 1;
-                    // } else {
-                    // this.properties.value = this.properties.value.slice(0, selectionStart) + this.properties.value.slice(selectionEnd);
-                    // textarea.selectionStart = selectionStart;
-                    // textarea.selectionEnd = selectionStart;
-                    // }
-
+                    keyElement.addEventListener("click", () => {
+                        const textarea = document.querySelector(".use-keyboard-input");
+                        const cursorPos = this._getCursorPosition(textarea);
+                        this.properties.value = this.properties.value.substring(0, cursorPos)+this.properties.value.substring(cursorPos+1);
+                        this._triggerEvent("oninput");
+                        textarea.selectionStart = cursorPos - 1;
+                        textarea.selectionEnd = cursorPos - 1;
+                    });
                     break;
 
                 case "Tab":
                     keyElement.classList.add("keyboard__key--wide");
                     keyElement.innerHTML = createIconHTML("keyboard_tab");
-                    keyElement.addEventListener("click", () => {
-                        this.properties.value += " ";
+                     keyElement.addEventListener("click", () => {
+                        const textarea = document.querySelector(".use-keyboard-input");
+                        const cursorPos = this._getCursorPosition(textarea);
+                        this.properties.value = this.properties.value.substring(0, cursorPos)+" "+ this.properties.value.substring(cursorPos);
                         this._triggerEvent("oninput");
+                        textarea.selectionStart = cursorPos + 1;
+                        textarea.selectionEnd = cursorPos + 1;
                     });
                     break;
                 case "ArrowUp":
                     keyElement.innerHTML = createIconHTML("keyboard_arrow_up");
-                    //   keyElement.textContent = key.replace("Arrow", "");
-                      //TODO move coursour or print
                       keyElement.addEventListener("click", () => {
                         this.properties.value += "\u2191";
                         this._triggerEvent("oninput");
@@ -201,7 +211,6 @@ const Keyboard = {
 
                 case "ArrowDown":
                     keyElement.innerHTML = createIconHTML("keyboard_arrow_down");
-                    //   keyElement.textContent = key.replace("Arrow", "");
                         keyElement.addEventListener("click", () => {
                         this.properties.value += "\u2193";
                         this._triggerEvent("oninput");
@@ -209,7 +218,6 @@ const Keyboard = {
                 break;
                  case "ArrowRight":
                     keyElement.innerHTML = createIconHTML("keyboard_arrow_right");
-                    //   keyElement.textContent = key.replace("Arrow", "");
                         keyElement.addEventListener("click", () => {
                         this.properties.value += "\u2192";
                         this._triggerEvent("oninput");
@@ -217,7 +225,6 @@ const Keyboard = {
                 break;
                  case "ArrowLeft":
                    keyElement.innerHTML = createIconHTML("keyboard_arrow_left");
-                    //   keyElement.textContent =  key.replace("Arrow", "");
                        keyElement.addEventListener("click", () => {
                         this.properties.value += "\u2190";
                         this._triggerEvent("oninput");
@@ -318,8 +325,16 @@ const Keyboard = {
         this.properties.englishLayout = !this.properties.englishLayout;
         localStorage.setItem('layout', this.properties.englishLayout);
         Keyboard.init();
-    }
+    },
 
+    _getCursorPosition(textarea) {
+        // Get cursor position
+        const selectionStart = textarea.selectionStart;
+        const selectionEnd = textarea.selectionEnd;
+        console.log("Cursor selectionStart:", selectionStart);
+        console.log("Cursor selectionEnd:", selectionEnd);
+        return selectionStart;
+    }
 };
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -328,7 +343,6 @@ window.addEventListener("DOMContentLoaded", function () {
 
     //track pressed keys
    this.document.onkeydown = function (event) {
-    console.log("event "+event.code);
     const pressedKeys = new Set();
     document.querySelectorAll(".keyboard__key").forEach(function(element) {
         if (element.getAttribute("data-key") == event.code) {
