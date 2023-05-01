@@ -53,7 +53,6 @@ const Keyboard = {
                 this.open(element.value, currentValue => {
                     element.value = currentValue;
                 });
-                console.log(".use-keyboard-input FOCUSED");
             });
         });
     },
@@ -78,7 +77,11 @@ const Keyboard = {
             "ShiftLeft", "Keyя", "Keyч", "Keyс", "Keyм", "Keyи", "Keyт", "Keyь", "Keyб", "Keyю", ".", "ShiftRight","ArrowUp",
             "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
         ];
+        // Get the stored value of the 'layoutSetting' key, or use a default value of true
+        const storedLayoutSetting = localStorage.getItem('layout') === 'false' ? false : this.properties.englishLayout;
 
+        // Update the 'englishLayout' property based on the stored value
+        this.properties.englishLayout = storedLayoutSetting;
         const currentLayout = this.properties.englishLayout ? english : russian;
 
         currentLayout.forEach(key => {
@@ -313,7 +316,7 @@ const Keyboard = {
 
     _switchLayout() {
         this.properties.englishLayout = !this.properties.englishLayout;
-        console.log("_switchLayout--->"+this.properties.englishLayout);
+        localStorage.setItem('layout', this.properties.englishLayout);
         Keyboard.init();
     }
 
@@ -325,7 +328,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
     //track pressed keys
    this.document.onkeydown = function (event) {
-    console.log("event "+event);
+    console.log("event "+event.code);
     const pressedKeys = new Set();
     document.querySelectorAll(".keyboard__key").forEach(function(element) {
         if (element.getAttribute("data-key") == event.code) {
