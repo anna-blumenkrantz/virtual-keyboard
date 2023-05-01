@@ -180,39 +180,36 @@ const Keyboard = {
                     });
                     break;
                 case "ArrowUp":
-                    // keyElement.innerHTML = createIconHTML(`keyboard_${key}`);
-                      keyElement.textContent = key.replace("Arrow", "");
+                    keyElement.innerHTML = createIconHTML("keyboard_arrow_up");
+                    //   keyElement.textContent = key.replace("Arrow", "");
                       //TODO move coursour or print
                       keyElement.addEventListener("click", () => {
-                        this.properties.value += "Up";
+                        this.properties.value += "\u2191";
                         this._triggerEvent("oninput");
                     });
                 break;
 
                 case "ArrowDown":
-                    //   keyElement.innerHTML = createIconHTML(`keyboard_${key}`);
-                      keyElement.textContent = key.replace("Arrow", "");
-                      //TODO move coursour
+                    keyElement.innerHTML = createIconHTML("keyboard_arrow_down");
+                    //   keyElement.textContent = key.replace("Arrow", "");
                         keyElement.addEventListener("click", () => {
-                        this.properties.value += "Down";
+                        this.properties.value += "\u2193";
                         this._triggerEvent("oninput");
                     });
                 break;
                  case "ArrowRight":
-                    //   keyElement.innerHTML = createIconHTML(`keyboard_${key}`);
-                      keyElement.textContent = key.replace("Arrow", "");
-                      //TODO move coursour
+                    keyElement.innerHTML = createIconHTML("keyboard_arrow_right");
+                    //   keyElement.textContent = key.replace("Arrow", "");
                         keyElement.addEventListener("click", () => {
-                        this.properties.value += "Right";
+                        this.properties.value += "\u2192";
                         this._triggerEvent("oninput");
                     });
                 break;
                  case "ArrowLeft":
-                    //   keyElement.innerHTML = createIconHTML(`keyboard_${key}`);
-                      keyElement.textContent =  key.replace("Arrow", "");
-                      //TODO move coursour
+                   keyElement.innerHTML = createIconHTML("keyboard_arrow_left");
+                    //   keyElement.textContent =  key.replace("Arrow", "");
                        keyElement.addEventListener("click", () => {
-                        this.properties.value += "Left";
+                        this.properties.value += "\u2190";
                         this._triggerEvent("oninput");
                        });
                 break;
@@ -315,18 +312,38 @@ const Keyboard = {
 };
 
 window.addEventListener("DOMContentLoaded", function () {
+   //load keyboard
     Keyboard.init();
-    this.document.onkeydown = function (event) {
-         document.querySelectorAll(".keyboard__key").forEach(function(element) {
+    //track pressed keys 
+   this.document.onkeydown = function (event) {
+    const pressedKeys = new Set();
+    document.querySelectorAll(".keyboard__key").forEach(function(element) {
+        if (element.getAttribute("data-key") == event.code) {
+            pressedKeys.add(element);
+            element.classList.add("keyboard__key--dark");
+        }
+    });
+
+    // add focus to all the pressed keys
+    pressedKeys.forEach(function(key) {
+        key.focus();
+    });
+
+    // handle input
+    if(event.key.length == 1) {
+        Keyboard.properties.value += event.key;
+        Keyboard._triggerEvent('oninput');
+    }
+
+    document.onkeyup = function(event) {
+        document.querySelectorAll(".keyboard__key").forEach(function(element) {
             if (element.getAttribute("data-key") == event.code) {
-                element.focus();
-                if(event.key.length ==1) {
-                    Keyboard.properties.value += event.key;
-                    Keyboard._triggerEvent('oninput');
-                }
-                }
+                element.classList.remove("keyboard__key--dark");
+                pressedKeys.delete(element);
+            }
         });
     };
+};
 
     // Keyboard.runOnKeys(Keyboard._switchLayout, "ShiftLeft", "AltLeft");
 });
