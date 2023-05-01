@@ -72,11 +72,11 @@ const Keyboard = {
             "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
         ];
         const russian = [
-        "ё",  "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "-", "=", "Backspace",
-        "Tab", "Keyй", "Keyц", "Keyу", "Keyк", "Keyе", "Keyн", "Keyг", "Keyш", "Keyщ", "Keyз", "Keyх", "Keyъ", "\\","Delete",
-        "CapsLock", "Keyф", "Keyы", "Keyв", "Keyа", "Keyп", "Keyр", "Keyо", "Keyл", "Keyд", "Keyж", "Keyэ", "Enter",
-        "ShiftLeft", "Keyя", "Keyч", "Keyс", "Keyм", "Keyи", "Keyт", "Keyь", "Keyб", "Keyю", ".", "ShiftRight","ArrowUp",
-         "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
+            "ё",  "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "-", "=", "Backspace",
+            "Tab", "Keyй", "Keyц", "Keyу", "Keyк", "Keyе", "Keyн", "Keyг", "Keyш", "Keyщ", "Keyз", "Keyх", "Keyъ", "\\","Delete",
+            "CapsLock", "Keyф", "Keyы", "Keyв", "Keyа", "Keyп", "Keyр", "Keyо", "Keyл", "Keyд", "Keyж", "Keyэ", "Enter",
+            "ShiftLeft", "Keyя", "Keyч", "Keyс", "Keyм", "Keyи", "Keyт", "Keyь", "Keyб", "Keyю", ".", "ShiftRight","ArrowUp",
+            "ControlLeft", "AltLeft","Space","AltRight", "ControlRight","ArrowLeft", "ArrowDown", "ArrowRight"
         ];
 
         const currentLayout = this.properties.englishLayout ? english : russian;
